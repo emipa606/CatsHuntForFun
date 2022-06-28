@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>HuntForFun</defName>
+    <driverClass>CatsHuntForFun.JobDriver_HuntForFun</driverClass>
+    <reportString>hunting TargetA.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <collideWithPawns>true</collideWithPawns>
+  </JobDef>
+</Defs>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <CatsHuntForFun.logging.label>Enable verbose logging</CatsHuntForFun.logging.label>
+  <CatsHuntForFun.logging.tooltip>Shows verbose logging, for finding errors</CatsHuntForFun.logging.tooltip>
+  <CatsHuntForFun.version.label>Installed mod-version: {0}</CatsHuntForFun.version.label>
+  <CatsHuntForFun.huntrange>Look for prey in {0} cell range</CatsHuntForFun.huntrange>
+  <CatsHuntForFun.chancetohunt>Chance to hunt when prey is near: {0}</CatsHuntForFun.chancetohunt>
+  <CatsHuntForFun.relativebodysize>Only hunt prey smaller than {0} relative size</CatsHuntForFun.relativebodysize>
+  <CatsHuntForFun.relativebodysize.example>A standard cat would attack: {0}</CatsHuntForFun.relativebodysize.example>
+  <CatsHuntForFun.whatisacat.label>What is a cat?</CatsHuntForFun.whatisacat.label>
+  <CatsHuntForFun.options>Options</CatsHuntForFun.options>
+  <CatsHuntForFun.search>Search</CatsHuntForFun.search>
+  <CatsHuntForFun.reset>Reset</CatsHuntForFun.reset>
+  <CatsHuntForFun.alsowild.label>Also wild animals</CatsHuntForFun.alsowild.label>
+  <CatsHuntForFun.alsowild.explanation>Wild animals will not obey the above options regarding home area and colony pets</CatsHuntForFun.alsowild.explanation>
+  <CatsHuntForFun.alsowild.tooltip>Also animals that do not belog to the player colony will hunt for fun</CatsHuntForFun.alsowild.tooltip>
+  <CatsHuntForFun.notcolonypets.label>Dont hunt colony pets</CatsHuntForFun.notcolonypets.label>
+  <CatsHuntForFun.notcolonypets.tooltip>Animals will not hunt animals belonging to the player colony</CatsHuntForFun.notcolonypets.tooltip>
+  <CatsHuntForFun.onlyhomearea.label>Only hunt in home area</CatsHuntForFun.onlyhomearea.label>
+  <CatsHuntForFun.onlyhomearea.tooltip>Animals will not leave the home area for hunting</CatsHuntForFun.onlyhomearea.tooltip>
+</LanguageData>
