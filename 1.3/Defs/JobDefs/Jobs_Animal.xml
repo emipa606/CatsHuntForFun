@@ -1,9 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <JobDef>
-    <defName>HuntForFun</defName>
+    <defName>CatsHuntForFun_Hunt</defName>
     <driverClass>CatsHuntForFun.JobDriver_HuntForFun</driverClass>
     <reportString>hunting TargetA.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <collideWithPawns>true</collideWithPawns>
+  </JobDef>
+  <JobDef>
+    <defName>CatsHuntForFun_BringGift</defName>
+    <driverClass>CatsHuntForFun.JobDriver_BringGift</driverClass>
+    <reportString>delivering TargetA.</reportString>
     <casualInterruptible>false</casualInterruptible>
     <collideWithPawns>true</collideWithPawns>
   </JobDef>

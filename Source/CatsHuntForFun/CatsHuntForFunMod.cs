@@ -84,14 +84,24 @@ internal class CatsHuntForFunMod : Mod
         };
         listing_Standard.Begin(rect);
         Text.Font = GameFont.Medium;
-        listing_Standard.Label("CatsHuntForFun.options".Translate());
+        var optionsRect = listing_Standard.Label("CatsHuntForFun.options".Translate());
         Text.Font = GameFont.Small;
+        if (Widgets.ButtonText(
+                new Rect(optionsRect.position + new Vector2(optionsRect.width - buttonSize.x, 0), buttonSize),
+                "CatsHuntForFun.reset".Translate()))
+        {
+            Settings.ResetSettings();
+        }
+
         Settings.HuntRange = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.HuntRange,
             1f, 20f, false,
             "CatsHuntForFun.huntrange".Translate(Settings.HuntRange), null, null, 1f);
         Settings.ChanceToHunt = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.ChanceToHunt,
             0.01f, 1f, false,
             "CatsHuntForFun.chancetohunt".Translate(Settings.ChanceToHunt.ToStringPercent()));
+        Settings.ChanceForGifts = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.ChanceForGifts,
+            0f, 1f, false,
+            "CatsHuntForFun.chanceforgifts".Translate(Settings.ChanceForGifts.ToStringPercent()));
         Settings.RelativeBodySize = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.RelativeBodySize,
             0.01f, 1f, false,
             "CatsHuntForFun.relativebodysize".Translate(Settings.RelativeBodySize.ToStringPercent()));
@@ -112,6 +122,7 @@ internal class CatsHuntForFunMod : Mod
         }
 
         listing_Standard.Gap();
+
         listing_Standard.CheckboxLabeled("CatsHuntForFun.logging.label".Translate(), ref Settings.VerboseLogging,
             "CatsHuntForFun.logging.tooltip".Translate());
 

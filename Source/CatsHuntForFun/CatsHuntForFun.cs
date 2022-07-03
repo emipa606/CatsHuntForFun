@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace CatsHuntForFun;
 
@@ -10,6 +12,7 @@ public class CatsHuntForFun
     public static List<PawnKindDef> ValidCatRaces;
     public static readonly List<ThingDef> AllAnimals;
     public static readonly JobDef HuntForFun;
+    public static readonly JobDef BringGift;
     public static readonly Dictionary<PawnKindDef, float> AnimalSizes;
     public static readonly ThingDef Cat;
 
@@ -18,7 +21,8 @@ public class CatsHuntForFun
         AllAnimals = DefDatabase<ThingDef>.AllDefsListForReading
             .Where(def => def.race is { Animal: true })
             .OrderBy(def => def.label).ToList();
-        HuntForFun = DefDatabase<JobDef>.GetNamedSilentFail("HuntForFun");
+        HuntForFun = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_Hunt");
+        BringGift = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_BringGift");
         Cat = DefDatabase<ThingDef>.GetNamedSilentFail("Cat");
         AnimalSizes = new Dictionary<PawnKindDef, float>();
         foreach (var animal in AllAnimals)
@@ -76,6 +80,139 @@ public class CatsHuntForFun
             LogMessage($"Found {ValidCatRaces.Count} valid cat-races in game: {string.Join(", ", ValidCatRaces)}",
                 true);
         }
+    }
+
+    public static IntVec3 GetGiftLocation(Pawn cat)
+    {
+        if (Rand.Value >= CatsHuntForFunMod.instance.Settings.ChanceForGifts)
+        {
+            return IntVec3.Invalid;
+        }
+
+        var firstDirectRelationPawn = cat.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, x => !x.Dead);
+        if (firstDirectRelationPawn == null)
+        {
+            return IntVec3.Invalid;
+        }
+
+        if (firstDirectRelationPawn.ownership.OwnedBed == null)
+        {
+            return IntVec3.Invalid;
+        }
+
+        if (firstDirectRelationPawn.ownership.OwnedBed.Map != cat.Map)
+        {
+            return IntVec3.Invalid;
+        }
+
+        if (!cat.CanReach(firstDirectRelationPawn.ownership.OwnedBed.Position, PathEndMode.ClosestTouch, Danger.Some))
+        {
+            return IntVec3.Invalid;
+        }
+
+        return firstDirectRelationPawn.ownership.OwnedBed.Position;
+    }
+
+    public static bool CanStartJobNow(Pawn pawn)
+    {
+        if (!IsACat(pawn))
+        {
+            return false;
+        }
+
+        if (pawn.jobs.startingNewJob)
+        {
+            return false;
+        }
+
+        if (pawn.Downed || pawn.health.HasHediffsNeedingTend() || pawn.health.hediffSet.BleedRateTotal > 0.001f)
+        {
+            return false;
+        }
+
+        if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static Thing GetPreyFromCell(IntVec3 possiblePreyCell, Pawn cat, bool onlyInHome, bool notFactionPets,
+        bool isGift = false)
+    {
+        Thing thing;
+        var prey = possiblePreyCell.GetFirstPawn(cat.Map);
+
+        if (prey is null)
+        {
+            if (isGift)
+            {
+                var corpse = possiblePreyCell.GetFirstThing<Corpse>(cat.Map);
+                if (corpse == null)
+                {
+                    return null;
+                }
+
+                thing = corpse;
+                prey = corpse.InnerPawn;
+                if (prey == null)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            thing = prey;
+        }
+
+        if (prey == cat)
+        {
+            return null;
+        }
+
+        if (notFactionPets && prey.Faction == cat.Faction)
+        {
+            LogMessage($"{cat} will ignore {prey}: same faction");
+            return null;
+        }
+
+        if (onlyInHome && !thing.Map.areaManager.Home[thing.Position])
+        {
+            LogMessage($"{cat} will ignore {prey}: not in home area");
+            return null;
+        }
+
+        if (prey.IsInvisible())
+        {
+            LogMessage($"{cat} will ignore {prey}: is invisible");
+            return null;
+        }
+
+        if (!isGift && prey.health?.Downed == true)
+        {
+            LogMessage($"{cat} will ignore {prey}: is downed");
+            return null;
+        }
+
+        if (!ValidPrey(cat).Contains(prey.RaceProps?.AnyPawnKind))
+        {
+            LogMessage($"{cat} will ignore {prey}: not a valid prey-race");
+            return null;
+        }
+
+        if (!cat.CanSee(thing))
+        {
+            LogMessage($"{cat} will ignore {prey}: cant see it");
+            return null;
+        }
+
+        return thing;
     }
 
     public static bool IsACat(Pawn pawn)

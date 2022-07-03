@@ -12,14 +12,14 @@
       </value>
     </match>
   </Operation>
-  <Operation Class="PatchOperationConditional">
-    <xpath>/Defs/ThinkTreeDef[defName="Animal"]/thinkRoot/subNodes/li[insertTag="Animal_PreWander"]</xpath>
-    <success>Always</success>
-    <match Class="PatchOperationInsert">
-      <xpath>/Defs/ThinkTreeDef[defName="Animal"]/thinkRoot/subNodes/li[insertTag="Animal_PreWander"]</xpath>
-      <value>
-        <li Class="CatsHuntForFun.JobGiver_HuntForFun" />
-      </value>
-    </match>
-  </Operation>
+  <!-- <Operation Class="PatchOperationConditional"> -->
+  <!-- <xpath>/Defs/ThinkTreeDef[defName="Animal"]/thinkRoot/subNodes/li[insertTag="Animal_PreWander"]</xpath> -->
+  <!-- <success>Always</success> -->
+  <!-- <match Class="PatchOperationInsert"> -->
+  <!-- <xpath>/Defs/ThinkTreeDef[defName="Animal"]/thinkRoot/subNodes/li[insertTag="Animal_PreWander"]</xpath> -->
+  <!-- <value> -->
+  <!-- <li Class="CatsHuntForFun.JobGiver_HuntForFun" /> -->
+  <!-- </value> -->
+  <!-- </match> -->
+  <!-- </Operation> -->
 </Patch>
