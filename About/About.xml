@@ -17,10 +17,12 @@ Adds a new activity for cats to hunt when not doing anything else.
 The hunting attack is always a surprise attack so the risk for the cat to get hurt is minimal.
 Cats will not try to hunt when hurt or downed.
 They will also not attack until the prey is downed or killed but can choose to just hit it once and walk away. (Cats are like that)
+If the gift-option is active, cats can take a valid prey in any health-state and leave it as a gift to their owner.
 
 There are options in the mod for
 - Range to search for prey in
 - How likely it is that a cat will attack a prey in range
+- How likely it is that a cat will bring a prey in range as a gift to their owner
 - Relative body-size to attack
 - Hunt only in home area
 - To not hunt animals belonging to the player colony

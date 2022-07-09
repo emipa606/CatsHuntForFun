@@ -40,7 +40,13 @@ public class CatsHuntForFun
         {
             foreach (var settingsManualCat in CatsHuntForFunMod.instance.Settings.ManualCats)
             {
-                ValidCatRaces.Add(PawnKindDef.Named(settingsManualCat));
+                var catToAdd = DefDatabase<PawnKindDef>.GetNamedSilentFail(settingsManualCat);
+                if (catToAdd == null)
+                {
+                    continue;
+                }
+
+                ValidCatRaces.Add(catToAdd);
             }
 
             if (ValidCatRaces.Count == 0)

@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-	<HugsLib.UpdateFeatureDef Abstract="true" Name="CatsHuntForFun_UpdateFeatureBase">
-		<modNameReadable>CatsHuntForFun</modNameReadable>
-		<linkUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2827497888</linkUrl>
-	</HugsLib.UpdateFeatureDef>
-	<HugsLib.UpdateFeatureDef ParentName="CatsHuntForFun_UpdateFeatureBase">
-		<defName>CatsHuntForFun_1_3_1</defName>
-		<assemblyVersion>1.3.1</assemblyVersion>
-		<content>There is now an option to have cats bring 'gifts' to their bonded owners.
+  <HugsLib.UpdateFeatureDef Abstract="true" Name="CatsHuntForFun_UpdateFeatureBase">
+    <modNameReadable>CatsHuntForFun</modNameReadable>
+    <linkUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2827497888</linkUrl>
+  </HugsLib.UpdateFeatureDef>
+  <HugsLib.UpdateFeatureDef ParentName="CatsHuntForFun_UpdateFeatureBase">
+    <defName>CatsHuntForFun_1_3_1</defName>
+    <assemblyVersion>1.3.1</assemblyVersion>
+    <content>There is now an option to have cats bring 'gifts' to their bonded owners.
 They will proudly leave these presents in their owners bed.</content>
-	</HugsLib.UpdateFeatureDef>
+  </HugsLib.UpdateFeatureDef>
 </Defs>
-
