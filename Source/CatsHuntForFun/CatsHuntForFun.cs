@@ -25,9 +25,12 @@ public class CatsHuntForFun
         BringGift = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_BringGift");
         Cat = DefDatabase<ThingDef>.GetNamedSilentFail("Cat");
         AnimalSizes = new Dictionary<PawnKindDef, float>();
+        LogMessage("Saving all animal-sizes");
         foreach (var animal in AllAnimals)
         {
+            LogMessage($"Checking size of {animal}");
             AnimalSizes[animal.race.AnyPawnKind] = animal.race.baseBodySize;
+            LogMessage($"Size: {animal.race.baseBodySize}");
         }
 
         UpdateAvailableCats();
@@ -38,14 +41,17 @@ public class CatsHuntForFun
         ValidCatRaces = new List<PawnKindDef>();
         if (CatsHuntForFunMod.instance.Settings.ManualCats?.Any() == true)
         {
+            LogMessage("Found manually defined cat-races, iterating");
             foreach (var settingsManualCat in CatsHuntForFunMod.instance.Settings.ManualCats)
             {
                 var catToAdd = DefDatabase<PawnKindDef>.GetNamedSilentFail(settingsManualCat);
                 if (catToAdd == null)
                 {
+                    LogMessage($"{settingsManualCat} not found, skipping");
                     continue;
                 }
 
+                LogMessage($"Adding {settingsManualCat}");
                 ValidCatRaces.Add(catToAdd);
             }
 
@@ -80,6 +86,7 @@ public class CatsHuntForFun
 
             foreach (var validRatRace in ValidCatRaces)
             {
+                LogMessage($"Adding hardcoded {validRatRace.defName}");
                 CatsHuntForFunMod.instance.Settings.ManualCats?.Add(validRatRace.defName);
             }
 
@@ -96,12 +103,8 @@ public class CatsHuntForFun
         }
 
         var firstDirectRelationPawn = cat.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, x => !x.Dead);
-        if (firstDirectRelationPawn == null)
-        {
-            return IntVec3.Invalid;
-        }
 
-        if (firstDirectRelationPawn.ownership.OwnedBed == null)
+        if (firstDirectRelationPawn?.ownership.OwnedBed == null)
         {
             return IntVec3.Invalid;
         }
@@ -111,12 +114,9 @@ public class CatsHuntForFun
             return IntVec3.Invalid;
         }
 
-        if (!cat.CanReach(firstDirectRelationPawn.ownership.OwnedBed.Position, PathEndMode.ClosestTouch, Danger.Some))
-        {
-            return IntVec3.Invalid;
-        }
-
-        return firstDirectRelationPawn.ownership.OwnedBed.Position;
+        return !cat.CanReach(firstDirectRelationPawn.ownership.OwnedBed.Position, PathEndMode.ClosestTouch, Danger.Some)
+            ? IntVec3.Invalid
+            : firstDirectRelationPawn.ownership.OwnedBed.Position;
     }
 
     public static bool CanStartJobNow(Pawn pawn)
@@ -136,12 +136,7 @@ public class CatsHuntForFun
             return false;
         }
 
-        if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
-        {
-            return false;
-        }
-
-        return true;
+        return !PawnUtility.PlayerForcedJobNowOrSoon(pawn);
     }
 
     public static Thing GetPreyFromCell(IntVec3 possiblePreyCell, Pawn cat, bool onlyInHome, bool notFactionPets,
@@ -212,13 +207,13 @@ public class CatsHuntForFun
             return null;
         }
 
-        if (!cat.CanSee(thing))
+        if (cat.CanSee(thing))
         {
-            LogMessage($"{cat} will ignore {prey}: cant see it");
-            return null;
+            return thing;
         }
 
-        return thing;
+        LogMessage($"{cat} will ignore {prey}: cant see it");
+        return null;
     }
 
     public static bool IsACat(Pawn pawn)
