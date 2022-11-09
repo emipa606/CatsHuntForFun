@@ -14,6 +14,7 @@ internal class CatsHuntForFunModSettings : ModSettings
     public float HuntRange;
     public List<string> ManualCats = new List<string>();
     public bool NotColonyPets = true;
+    public bool NotFactionPets;
     public bool OnlyHomeArea;
     public float RelativeBodySize;
     public bool VerboseLogging;
@@ -25,6 +26,7 @@ internal class CatsHuntForFunModSettings : ModSettings
         Scribe_Values.Look(ref AlsoWild, "AlsoWild");
         Scribe_Values.Look(ref OnlyHomeArea, "OnlyHomeArea");
         Scribe_Values.Look(ref NotColonyPets, "NotColonyPets", true);
+        Scribe_Values.Look(ref NotFactionPets, "NotFactionPets", true);
         Scribe_Values.Look(ref RelativeBodySize, "RelativeBodySize", 0.75f);
         Scribe_Values.Look(ref ChanceToHunt, "ChanceToHunt", 0.2f);
         Scribe_Values.Look(ref ChanceForGifts, "ChanceForGifts");
@@ -39,6 +41,7 @@ internal class CatsHuntForFunModSettings : ModSettings
         ChanceToHunt = 0.2f;
         HuntRange = 7f;
         NotColonyPets = true;
+        NotFactionPets = true;
         OnlyHomeArea = false;
         RelativeBodySize = 0.75f;
         VerboseLogging = false;

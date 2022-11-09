@@ -111,6 +111,8 @@ internal class CatsHuntForFunMod : Mod
         listing_Standard.Gap();
         listing_Standard.CheckboxLabeled("CatsHuntForFun.notcolonypets.label".Translate(), ref Settings.NotColonyPets,
             "CatsHuntForFun.notcolonypets.tooltip".Translate());
+        listing_Standard.CheckboxLabeled("CatsHuntForFun.notfactionpets.label".Translate(), ref Settings.NotFactionPets,
+            "CatsHuntForFun.notfactionpets.tooltip".Translate());
         listing_Standard.CheckboxLabeled("CatsHuntForFun.onlyhomearea.label".Translate(), ref Settings.OnlyHomeArea,
             "CatsHuntForFun.onlyhomearea.tooltip".Translate());
         listing_Standard.Gap();

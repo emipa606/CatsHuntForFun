@@ -18,6 +18,8 @@
   <CatsHuntForFun.alsowild.tooltip>Also animals that do not belog to the player colony will hunt for fun</CatsHuntForFun.alsowild.tooltip>
   <CatsHuntForFun.notcolonypets.label>Dont hunt colony pets</CatsHuntForFun.notcolonypets.label>
   <CatsHuntForFun.notcolonypets.tooltip>Animals will not hunt animals belonging to the player colony</CatsHuntForFun.notcolonypets.tooltip>
+  <CatsHuntForFun.notfactionpets.label>Dont hunt other factions pets</CatsHuntForFun.notfactionpets.label>
+  <CatsHuntForFun.notfactionpets.tooltip>Animals will not hunt animals belonging to other factions</CatsHuntForFun.notfactionpets.tooltip>
   <CatsHuntForFun.onlyhomearea.label>Only hunt in home area</CatsHuntForFun.onlyhomearea.label>
   <CatsHuntForFun.onlyhomearea.tooltip>Animals will not leave the home area for hunting</CatsHuntForFun.onlyhomearea.tooltip>
 </LanguageData>

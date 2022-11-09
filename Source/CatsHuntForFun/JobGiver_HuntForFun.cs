@@ -19,13 +19,14 @@ public class JobGiver_HuntForFun : ThinkNode_JobGiver
         }
 
         var onlyInHome = CatsHuntForFunMod.instance.Settings.OnlyHomeArea;
-        var notFactionPets = CatsHuntForFunMod.instance.Settings.NotColonyPets;
+        var notColonyPets = CatsHuntForFunMod.instance.Settings.NotColonyPets;
+        var notFactionPets = CatsHuntForFunMod.instance.Settings.NotFactionPets;
 
         if (pawn.Faction != Faction.OfPlayer)
         {
             if (CatsHuntForFunMod.instance.Settings.AlsoWild)
             {
-                onlyInHome = notFactionPets = false;
+                onlyInHome = notColonyPets = false;
             }
             else
             {
@@ -41,7 +42,7 @@ public class JobGiver_HuntForFun : ThinkNode_JobGiver
                 continue;
             }
 
-            var prey = CatsHuntForFun.GetPreyFromCell(cell, pawn, onlyInHome, notFactionPets);
+            var prey = CatsHuntForFun.GetPreyFromCell(cell, pawn, onlyInHome, notColonyPets, notFactionPets);
             if (prey == null)
             {
                 continue;

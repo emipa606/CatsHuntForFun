@@ -1,5 +1,8 @@
 # Changelog for CatsHuntForFun
 
+1.4.2 - Added option for cats to not hunt animals from other factions
+
+
 1.4.1 - Mod updated for 1.4 and passed autotests
 
 

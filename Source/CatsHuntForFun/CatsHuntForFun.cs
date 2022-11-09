@@ -139,7 +139,8 @@ public class CatsHuntForFun
         return !PawnUtility.PlayerForcedJobNowOrSoon(pawn);
     }
 
-    public static Thing GetPreyFromCell(IntVec3 possiblePreyCell, Pawn cat, bool onlyInHome, bool notFactionPets,
+    public static Thing GetPreyFromCell(IntVec3 possiblePreyCell, Pawn cat, bool onlyInHome, bool notColonyPets,
+        bool notFactionPets,
         bool isGift = false)
     {
         Thing thing;
@@ -177,9 +178,15 @@ public class CatsHuntForFun
             return null;
         }
 
-        if (notFactionPets && prey.Faction == cat.Faction)
+        if (notColonyPets && prey.Faction == cat.Faction)
         {
             LogMessage($"{cat} will ignore {prey}: same faction");
+            return null;
+        }
+
+        if (notFactionPets && prey.Faction != null && prey.Faction != cat.Faction)
+        {
+            LogMessage($"{cat} will ignore {prey}: belongs to another faction");
             return null;
         }
 
