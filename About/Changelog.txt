@@ -1,5 +1,9 @@
 # Changelog for CatsHuntForFun
 
+1.4.3 - Cats should now not hunt animals that are volatile on death, like boomrats.
+Used DeepL to update translations for ChineseSimplified, French, German, Russian
+
+
 1.4.2 - Added option for cats to not hunt animals from other factions
 
 

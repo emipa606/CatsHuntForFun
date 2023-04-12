@@ -19,7 +19,8 @@ public class CatsHuntForFun
     static CatsHuntForFun()
     {
         AllAnimals = DefDatabase<ThingDef>.AllDefsListForReading
-            .Where(def => def.race is { Animal: true })
+            .Where(def => def.race is { Animal: true } && (def.race.DeathActionWorker == null ||
+                                                           def.race.DeathActionWorker.DangerousInMelee == false))
             .OrderBy(def => def.label).ToList();
         HuntForFun = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_Hunt");
         BringGift = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_BringGift");
