@@ -4,5 +4,5 @@ namespace CatsHuntForFun;
 
 public class CatExtension : DefModExtension
 {
-    public bool IsCat = true;
+    public readonly bool IsCat = true;
 }

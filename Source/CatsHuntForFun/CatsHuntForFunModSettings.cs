@@ -12,7 +12,7 @@ internal class CatsHuntForFunModSettings : ModSettings
     public float ChanceForGifts;
     public float ChanceToHunt;
     public float HuntRange;
-    public List<string> ManualCats = new List<string>();
+    public List<string> ManualCats = [];
     public bool NotColonyPets = true;
     public bool NotFactionPets;
     public bool OnlyHomeArea;

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Mlie;
 using UnityEngine;
 using Verse;
@@ -38,13 +37,12 @@ internal class CatsHuntForFunMod : Mod
         instance = this;
         if (instance.Settings.ManualCats == null)
         {
-            instance.Settings.ManualCats = new List<string>();
+            instance.Settings.ManualCats = [];
         }
 
         searchText = string.Empty;
         currentVersion =
-            VersionFromManifest.GetVersionFromModMetaData(
-                ModLister.GetActiveModWithIdentifier("Mlie.CatsHuntForFun"));
+            VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
     }
 
     /// <summary>
@@ -93,16 +91,18 @@ internal class CatsHuntForFunMod : Mod
             Settings.ResetSettings();
         }
 
-        Settings.HuntRange = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.HuntRange,
+        Settings.HuntRange = Widgets.HorizontalSlider_NewTemp(listing_Standard.GetRect(50f), Settings.HuntRange,
             1f, 20f, false,
             "CatsHuntForFun.huntrange".Translate(Settings.HuntRange), null, null, 1f);
-        Settings.ChanceToHunt = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.ChanceToHunt,
+        Settings.ChanceToHunt = Widgets.HorizontalSlider_NewTemp(listing_Standard.GetRect(50f), Settings.ChanceToHunt,
             0.01f, 1f, false,
             "CatsHuntForFun.chancetohunt".Translate(Settings.ChanceToHunt.ToStringPercent()));
-        Settings.ChanceForGifts = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.ChanceForGifts,
+        Settings.ChanceForGifts = Widgets.HorizontalSlider_NewTemp(listing_Standard.GetRect(50f),
+            Settings.ChanceForGifts,
             0f, 1f, false,
             "CatsHuntForFun.chanceforgifts".Translate(Settings.ChanceForGifts.ToStringPercent()));
-        Settings.RelativeBodySize = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.RelativeBodySize,
+        Settings.RelativeBodySize = Widgets.HorizontalSlider_NewTemp(listing_Standard.GetRect(50f),
+            Settings.RelativeBodySize,
             0.01f, 1f, false,
             "CatsHuntForFun.relativebodysize".Translate(Settings.RelativeBodySize.ToStringPercent()));
         listing_Standard.Label("CatsHuntForFun.relativebodysize.example".Translate(string.Join(", ",
@@ -144,7 +144,7 @@ internal class CatsHuntForFunMod : Mod
                 new Rect(titleRect.position + new Vector2(titleRect.width - buttonSize.x, 0), buttonSize),
                 "CatsHuntForFun.reset".Translate()))
         {
-            instance.Settings.ManualCats = new List<string>();
+            instance.Settings.ManualCats = [];
             CatsHuntForFun.UpdateAvailableCats();
         }
 

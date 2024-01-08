@@ -19,8 +19,8 @@ public class CatsHuntForFun
     static CatsHuntForFun()
     {
         AllAnimals = DefDatabase<ThingDef>.AllDefsListForReading
-            .Where(def => def.race is { Animal: true } && (def.race.DeathActionWorker == null ||
-                                                           def.race.DeathActionWorker.DangerousInMelee == false))
+            .Where(def => def.race is { Animal: true, AnyPawnKind: not null } && (def.race.DeathActionWorker == null ||
+                def.race.DeathActionWorker.DangerousInMelee == false))
             .OrderBy(def => def.label).ToList();
         HuntForFun = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_Hunt");
         BringGift = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_BringGift");
@@ -39,7 +39,7 @@ public class CatsHuntForFun
 
     public static void UpdateAvailableCats()
     {
-        ValidCatRaces = new List<PawnKindDef>();
+        ValidCatRaces = [];
         if (CatsHuntForFunMod.instance.Settings.ManualCats?.Any() == true)
         {
             LogMessage("Found manually defined cat-races, iterating");
@@ -82,7 +82,7 @@ public class CatsHuntForFun
         {
             if (CatsHuntForFunMod.instance.Settings.ManualCats == null)
             {
-                CatsHuntForFunMod.instance.Settings.ManualCats = new List<string>();
+                CatsHuntForFunMod.instance.Settings.ManualCats = [];
             }
 
             foreach (var validRatRace in ValidCatRaces)
