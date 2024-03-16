@@ -91,17 +91,17 @@ internal class CatsHuntForFunMod : Mod
             Settings.ResetSettings();
         }
 
-        Settings.HuntRange = Widgets.HorizontalSlider_NewTemp(listing_Standard.GetRect(50f), Settings.HuntRange,
+        Settings.HuntRange = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.HuntRange,
             1f, 20f, false,
             "CatsHuntForFun.huntrange".Translate(Settings.HuntRange), null, null, 1f);
-        Settings.ChanceToHunt = Widgets.HorizontalSlider_NewTemp(listing_Standard.GetRect(50f), Settings.ChanceToHunt,
+        Settings.ChanceToHunt = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.ChanceToHunt,
             0.01f, 1f, false,
             "CatsHuntForFun.chancetohunt".Translate(Settings.ChanceToHunt.ToStringPercent()));
-        Settings.ChanceForGifts = Widgets.HorizontalSlider_NewTemp(listing_Standard.GetRect(50f),
+        Settings.ChanceForGifts = Widgets.HorizontalSlider(listing_Standard.GetRect(50f),
             Settings.ChanceForGifts,
             0f, 1f, false,
             "CatsHuntForFun.chanceforgifts".Translate(Settings.ChanceForGifts.ToStringPercent()));
-        Settings.RelativeBodySize = Widgets.HorizontalSlider_NewTemp(listing_Standard.GetRect(50f),
+        Settings.RelativeBodySize = Widgets.HorizontalSlider(listing_Standard.GetRect(50f),
             Settings.RelativeBodySize,
             0.01f, 1f, false,
             "CatsHuntForFun.relativebodysize".Translate(Settings.RelativeBodySize.ToStringPercent()));

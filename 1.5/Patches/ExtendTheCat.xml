@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/PawnKindDef[defName="ExC_NEKO_KillerCat"]</xpath>
+    <success>Always</success>
+    <match Class="PatchOperationAddModExtension">
+      <xpath>/Defs/PawnKindDef[defName="ExC_NEKO_KillerCat" or defName="ExC_NEKO_Shiro" or defName="ExC_NEKO_Kuro" or defName="ExC_NEKO_Ash" or defName="ExC_NEKO_Mike" or defName="ExC_NEKO_Chatora" or defName="ExC_NEKO_Sabatora" or defName="ExC_NEKO_Kijitora" or defName="ExC_NEKO_Creamtora" or defName="ExC_NEKO_Point" or defName="ExC_NEKO_Tortoise" or defName="ExC_NEKO_Bicolor" or defName="ExC_NEKO_Siamese" or defName="ExC_NEKO_Cat" or defName="ExC_NEKO_BombCat" or defName="ExC_NEKO_Turtle" or defName="ExC_NEKO_Monkey"]</xpath>
+      <value>
+        <li Class="CatsHuntForFun.CatExtension">
+          <IsCat>True</IsCat>
+        </li>
+      </value>
+    </match>
+  </Operation>
+</Patch>

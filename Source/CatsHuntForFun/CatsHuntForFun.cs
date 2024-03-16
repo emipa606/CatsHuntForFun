@@ -197,7 +197,7 @@ public class CatsHuntForFun
             return null;
         }
 
-        if (prey.IsInvisible())
+        if (prey.IsHiddenFromPlayer())
         {
             LogMessage($"{cat} will ignore {prey}: is invisible");
             return null;

@@ -1,5 +1,8 @@
 # Changelog for CatsHuntForFun
 
+1.5.0 - Mod updated for 1.5 and passed autotests
+
+
 1.4.4 - Fixed issue with animals that are missing a default pawnkind
 
 
