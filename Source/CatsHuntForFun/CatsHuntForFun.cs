@@ -11,10 +11,10 @@ public class CatsHuntForFun
 {
     public static List<PawnKindDef> ValidCatRaces;
     public static readonly List<ThingDef> AllAnimals;
-    public static readonly JobDef HuntForFun;
-    public static readonly JobDef BringGift;
-    public static readonly Dictionary<PawnKindDef, float> AnimalSizes;
-    public static readonly ThingDef Cat;
+    public static readonly JobDef HuntForFun = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_Hunt");
+    public static readonly JobDef BringGift = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_BringGift");
+    public static readonly Dictionary<PawnKindDef, float> AnimalSizes = new Dictionary<PawnKindDef, float>();
+    public static readonly ThingDef Cat = DefDatabase<ThingDef>.GetNamedSilentFail("Cat");
 
     static CatsHuntForFun()
     {
@@ -22,10 +22,6 @@ public class CatsHuntForFun
             .Where(def => def.race is { Animal: true, AnyPawnKind: not null } && (def.race.DeathActionWorker == null ||
                 def.race.DeathActionWorker.DangerousInMelee == false))
             .OrderBy(def => def.label).ToList();
-        HuntForFun = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_Hunt");
-        BringGift = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_BringGift");
-        Cat = DefDatabase<ThingDef>.GetNamedSilentFail("Cat");
-        AnimalSizes = new Dictionary<PawnKindDef, float>();
         LogMessage("Saving all animal-sizes");
         foreach (var animal in AllAnimals)
         {
@@ -105,12 +101,8 @@ public class CatsHuntForFun
 
         var firstDirectRelationPawn = cat.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, x => !x.Dead);
 
-        if (firstDirectRelationPawn?.ownership.OwnedBed == null)
-        {
-            return IntVec3.Invalid;
-        }
-
-        if (firstDirectRelationPawn.ownership.OwnedBed.Map != cat.Map)
+        if (firstDirectRelationPawn?.ownership.OwnedBed == null ||
+            firstDirectRelationPawn.ownership.OwnedBed.Map != cat.Map)
         {
             return IntVec3.Invalid;
         }
@@ -122,7 +114,7 @@ public class CatsHuntForFun
 
     public static bool CanStartJobNow(Pawn pawn)
     {
-        if (!IsACat(pawn))
+        if (!IsAnAdultCat(pawn))
         {
             return false;
         }
@@ -224,8 +216,13 @@ public class CatsHuntForFun
         return null;
     }
 
-    public static bool IsACat(Pawn pawn)
+    public static bool IsAnAdultCat(Pawn pawn)
     {
+        if (pawn.ageTracker?.Adult == false)
+        {
+            return false;
+        }
+
         return CatsHuntForFunMod.instance.Settings.ManualCats?.Contains(pawn.RaceProps.AnyPawnKind?.defName) == true;
     }
 
