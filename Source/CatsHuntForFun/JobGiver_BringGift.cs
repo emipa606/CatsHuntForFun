@@ -12,7 +12,7 @@ public class JobGiver_BringGift : ThinkNode_JobGiver
             return null;
         }
 
-        if (Rand.Value > CatsHuntForFunMod.instance.Settings.ChanceForGifts)
+        if (Rand.Value > CatsHuntForFunMod.Instance.Settings.ChanceForGifts)
         {
             return null;
         }
@@ -24,7 +24,7 @@ public class JobGiver_BringGift : ThinkNode_JobGiver
             return null;
         }
 
-        foreach (var cell in GenRadial.RadialCellsAround(pawn.Position, CatsHuntForFunMod.instance.Settings.HuntRange,
+        foreach (var cell in GenRadial.RadialCellsAround(pawn.Position, CatsHuntForFunMod.Instance.Settings.HuntRange,
                      true))
         {
             if (!cell.InBounds(pawn.Map))
@@ -38,7 +38,7 @@ public class JobGiver_BringGift : ThinkNode_JobGiver
             }
 
             var prey = CatsHuntForFun.GetPreyFromCell(cell, pawn, false,
-                CatsHuntForFunMod.instance.Settings.NotColonyPets, true);
+                CatsHuntForFunMod.Instance.Settings.NotColonyPets, true);
             if (prey == null)
             {
                 continue;

@@ -11,15 +11,15 @@ internal class CatsHuntForFunMod : Mod
     /// <summary>
     ///     The instance of the settings to be read by the mod
     /// </summary>
-    public static CatsHuntForFunMod instance;
+    public static CatsHuntForFunMod Instance;
 
     private static string currentVersion;
-    private static readonly Vector2 searchSize = new Vector2(200f, 25f);
-    private static readonly Vector2 buttonSize = new Vector2(120f, 25f);
-    private static readonly Vector2 iconSize = new Vector2(58f, 58f);
+    private static readonly Vector2 searchSize = new(200f, 25f);
+    private static readonly Vector2 buttonSize = new(120f, 25f);
+    private static readonly Vector2 iconSize = new(58f, 58f);
     private static string searchText;
     private static Vector2 scrollPosition;
-    private static readonly Color alternateBackground = new Color(0.2f, 0.2f, 0.2f, 0.5f);
+    private static readonly Color alternateBackground = new(0.2f, 0.2f, 0.2f, 0.5f);
 
 
     /// <summary>
@@ -34,11 +34,8 @@ internal class CatsHuntForFunMod : Mod
     public CatsHuntForFunMod(ModContentPack content)
         : base(content)
     {
-        instance = this;
-        if (instance.Settings.ManualCats == null)
-        {
-            instance.Settings.ManualCats = [];
-        }
+        Instance = this;
+        Instance.Settings.ManualCats ??= [];
 
         searchText = string.Empty;
         currentVersion =
@@ -52,10 +49,7 @@ internal class CatsHuntForFunMod : Mod
     {
         get
         {
-            if (settings == null)
-            {
-                settings = GetSettings<CatsHuntForFunModSettings>();
-            }
+            settings ??= GetSettings<CatsHuntForFunModSettings>();
 
             return settings;
         }
@@ -76,13 +70,13 @@ internal class CatsHuntForFunMod : Mod
     {
         base.DoSettingsWindowContents(rect);
 
-        var listing_Standard = new Listing_Standard
+        var listingStandard = new Listing_Standard
         {
             ColumnWidth = rect.width * 0.49f
         };
-        listing_Standard.Begin(rect);
+        listingStandard.Begin(rect);
         Text.Font = GameFont.Medium;
-        var optionsRect = listing_Standard.Label("CatsHuntForFun.options".Translate());
+        var optionsRect = listingStandard.Label("CatsHuntForFun.options".Translate());
         Text.Font = GameFont.Small;
         if (Widgets.ButtonText(
                 new Rect(optionsRect.position + new Vector2(optionsRect.width - buttonSize.x, 0), buttonSize),
@@ -91,64 +85,64 @@ internal class CatsHuntForFunMod : Mod
             Settings.ResetSettings();
         }
 
-        Settings.HuntRange = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.HuntRange,
+        Settings.HuntRange = Widgets.HorizontalSlider(listingStandard.GetRect(50f), Settings.HuntRange,
             1f, 20f, false,
             "CatsHuntForFun.huntrange".Translate(Settings.HuntRange), null, null, 1f);
-        Settings.ChanceToHunt = Widgets.HorizontalSlider(listing_Standard.GetRect(50f), Settings.ChanceToHunt,
+        Settings.ChanceToHunt = Widgets.HorizontalSlider(listingStandard.GetRect(50f), Settings.ChanceToHunt,
             0.01f, 1f, false,
             "CatsHuntForFun.chancetohunt".Translate(Settings.ChanceToHunt.ToStringPercent()));
-        Settings.ChanceForGifts = Widgets.HorizontalSlider(listing_Standard.GetRect(50f),
+        Settings.ChanceForGifts = Widgets.HorizontalSlider(listingStandard.GetRect(50f),
             Settings.ChanceForGifts,
             0f, 1f, false,
             "CatsHuntForFun.chanceforgifts".Translate(Settings.ChanceForGifts.ToStringPercent()));
-        Settings.RelativeBodySize = Widgets.HorizontalSlider(listing_Standard.GetRect(50f),
+        Settings.RelativeBodySize = Widgets.HorizontalSlider(listingStandard.GetRect(50f),
             Settings.RelativeBodySize,
             0.01f, 1f, false,
             "CatsHuntForFun.relativebodysize".Translate(Settings.RelativeBodySize.ToStringPercent()));
-        listing_Standard.Label("CatsHuntForFun.relativebodysize.example".Translate(string.Join(", ",
+        listingStandard.Label("CatsHuntForFun.relativebodysize.example".Translate(string.Join(", ",
             CatsHuntForFun.ValidPrey(CatsHuntForFun.Cat).Select(def => def.label))));
 
-        listing_Standard.Gap();
-        listing_Standard.CheckboxLabeled("CatsHuntForFun.notcolonypets.label".Translate(), ref Settings.NotColonyPets,
+        listingStandard.Gap();
+        listingStandard.CheckboxLabeled("CatsHuntForFun.notcolonypets.label".Translate(), ref Settings.NotColonyPets,
             "CatsHuntForFun.notcolonypets.tooltip".Translate());
-        listing_Standard.CheckboxLabeled("CatsHuntForFun.notfactionpets.label".Translate(), ref Settings.NotFactionPets,
+        listingStandard.CheckboxLabeled("CatsHuntForFun.notfactionpets.label".Translate(), ref Settings.NotFactionPets,
             "CatsHuntForFun.notfactionpets.tooltip".Translate());
-        listing_Standard.CheckboxLabeled("CatsHuntForFun.onlyhomearea.label".Translate(), ref Settings.OnlyHomeArea,
+        listingStandard.CheckboxLabeled("CatsHuntForFun.onlyhomearea.label".Translate(), ref Settings.OnlyHomeArea,
             "CatsHuntForFun.onlyhomearea.tooltip".Translate());
-        listing_Standard.Gap();
-        listing_Standard.CheckboxLabeled("CatsHuntForFun.alsowild.label".Translate(), ref Settings.AlsoWild,
+        listingStandard.Gap();
+        listingStandard.CheckboxLabeled("CatsHuntForFun.alsowild.label".Translate(), ref Settings.AlsoWild,
             "CatsHuntForFun.alsowild.tooltip".Translate());
         if (Settings.AlsoWild)
         {
-            listing_Standard.Label("CatsHuntForFun.alsowild.explanation".Translate());
+            listingStandard.Label("CatsHuntForFun.alsowild.explanation".Translate());
         }
 
-        listing_Standard.Gap();
+        listingStandard.Gap();
 
-        listing_Standard.CheckboxLabeled("CatsHuntForFun.logging.label".Translate(), ref Settings.VerboseLogging,
+        listingStandard.CheckboxLabeled("CatsHuntForFun.logging.label".Translate(), ref Settings.VerboseLogging,
             "CatsHuntForFun.logging.tooltip".Translate());
 
         if (currentVersion != null)
         {
-            listing_Standard.Gap();
+            listingStandard.Gap();
             GUI.contentColor = Color.gray;
-            listing_Standard.Label("CatsHuntForFun.version.label".Translate(currentVersion));
+            listingStandard.Label("CatsHuntForFun.version.label".Translate(currentVersion));
             GUI.contentColor = Color.white;
         }
 
-        listing_Standard.NewColumn();
+        listingStandard.NewColumn();
         Text.Font = GameFont.Medium;
-        var titleRect = listing_Standard.Label("CatsHuntForFun.whatisacat.label".Translate());
+        var titleRect = listingStandard.Label("CatsHuntForFun.whatisacat.label".Translate());
         Text.Font = GameFont.Small;
         if (Widgets.ButtonText(
                 new Rect(titleRect.position + new Vector2(titleRect.width - buttonSize.x, 0), buttonSize),
                 "CatsHuntForFun.reset".Translate()))
         {
-            instance.Settings.ManualCats = [];
+            Instance.Settings.ManualCats = [];
             CatsHuntForFun.UpdateAvailableCats();
         }
 
-        var searchRect = listing_Standard.GetRect(searchSize.x);
+        var searchRect = listingStandard.GetRect(searchSize.x);
         searchText =
             Widgets.TextField(
                 new Rect(
@@ -168,7 +162,7 @@ internal class CatsHuntForFunMod : Mod
                 .ToList();
         }
 
-        listing_Standard.End();
+        listingStandard.End();
 
         var borderRect = rect;
         borderRect.width *= 0.49f;
@@ -196,9 +190,9 @@ internal class CatsHuntForFunMod : Mod
             }
 
             var raceLabel = $"{animal.label.CapitalizeFirst()} ({animal.defName}) - {modInfo}";
-            var isCat = instance.Settings.ManualCats.Contains(animal.defName);
+            var isCat = Instance.Settings.ManualCats.Contains(animal.defName);
             var wasCat = isCat;
-            DrawIcon(animal,
+            drawIcon(animal,
                 new Rect(rowRect.position, iconSize));
             var nameRect = new Rect(rowRect.position + new Vector2(iconSize.x, 0),
                 rowRect.size - new Vector2(iconSize.x, 0));
@@ -210,11 +204,11 @@ internal class CatsHuntForFunMod : Mod
 
             if (isCat)
             {
-                instance.Settings.ManualCats.Add(animal.defName);
+                Instance.Settings.ManualCats.Add(animal.defName);
             }
             else
             {
-                instance.Settings.ManualCats.Remove(animal.defName);
+                Instance.Settings.ManualCats.Remove(animal.defName);
             }
         }
 
@@ -222,7 +216,7 @@ internal class CatsHuntForFunMod : Mod
         Widgets.EndScrollView();
     }
 
-    private void DrawIcon(ThingDef animal, Rect rect)
+    private static void drawIcon(ThingDef animal, Rect rect)
     {
         var pawnKind = DefDatabase<PawnKindDef>.GetNamedSilentFail(animal.defName);
 

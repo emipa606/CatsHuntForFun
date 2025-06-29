@@ -13,18 +13,18 @@ public class JobGiver_HuntForFun : ThinkNode_JobGiver
             return null;
         }
 
-        if (Rand.Value > CatsHuntForFunMod.instance.Settings.ChanceToHunt)
+        if (Rand.Value > CatsHuntForFunMod.Instance.Settings.ChanceToHunt)
         {
             return null;
         }
 
-        var onlyInHome = CatsHuntForFunMod.instance.Settings.OnlyHomeArea;
-        var notColonyPets = CatsHuntForFunMod.instance.Settings.NotColonyPets;
-        var notFactionPets = CatsHuntForFunMod.instance.Settings.NotFactionPets;
+        var onlyInHome = CatsHuntForFunMod.Instance.Settings.OnlyHomeArea;
+        var notColonyPets = CatsHuntForFunMod.Instance.Settings.NotColonyPets;
+        var notFactionPets = CatsHuntForFunMod.Instance.Settings.NotFactionPets;
 
         if (pawn.Faction != Faction.OfPlayer)
         {
-            if (CatsHuntForFunMod.instance.Settings.AlsoWild)
+            if (CatsHuntForFunMod.Instance.Settings.AlsoWild)
             {
                 onlyInHome = notColonyPets = false;
             }
@@ -34,7 +34,7 @@ public class JobGiver_HuntForFun : ThinkNode_JobGiver
             }
         }
 
-        foreach (var cell in GenRadial.RadialCellsAround(pawn.Position, CatsHuntForFunMod.instance.Settings.HuntRange,
+        foreach (var cell in GenRadial.RadialCellsAround(pawn.Position, CatsHuntForFunMod.Instance.Settings.HuntRange,
                      true))
         {
             if (!cell.InBounds(pawn.Map))

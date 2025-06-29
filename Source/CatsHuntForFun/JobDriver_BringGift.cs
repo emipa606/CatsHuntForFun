@@ -7,7 +7,7 @@ namespace CatsHuntForFun;
 
 public class JobDriver_BringGift : JobDriver_AttackMelee
 {
-    protected Thing Prey => job.targetA.Thing;
+    private Thing Prey => job.targetA.Thing;
 
     public override bool TryMakePreToilReservations(bool errorOnFailed)
     {

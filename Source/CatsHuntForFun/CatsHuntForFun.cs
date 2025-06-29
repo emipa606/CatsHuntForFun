@@ -9,25 +9,30 @@ namespace CatsHuntForFun;
 [StaticConstructorOnStartup]
 public class CatsHuntForFun
 {
-    public static List<PawnKindDef> ValidCatRaces;
+    private static List<PawnKindDef> ValidCatRaces;
     public static readonly List<ThingDef> AllAnimals;
     public static readonly JobDef HuntForFun = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_Hunt");
     public static readonly JobDef BringGift = DefDatabase<JobDef>.GetNamedSilentFail("CatsHuntForFun_BringGift");
-    public static readonly Dictionary<PawnKindDef, float> AnimalSizes = new Dictionary<PawnKindDef, float>();
+    private static readonly Dictionary<PawnKindDef, float> AnimalSizes = new();
     public static readonly ThingDef Cat = DefDatabase<ThingDef>.GetNamedSilentFail("Cat");
 
     static CatsHuntForFun()
     {
         AllAnimals = DefDatabase<ThingDef>.AllDefsListForReading
-            .Where(def => def.race is { Animal: true, AnyPawnKind: not null } && (def.race.DeathActionWorker == null ||
-                def.race.DeathActionWorker.DangerousInMelee == false))
+            .Where(def => def.race is
+            {
+                Animal: true, AnyPawnKind: not null, DeathActionWorker: not
+                {
+                    DangerousInMelee: true
+                }
+            })
             .OrderBy(def => def.label).ToList();
-        LogMessage("Saving all animal-sizes");
+        logMessage("Saving all animal-sizes");
         foreach (var animal in AllAnimals)
         {
-            LogMessage($"Checking size of {animal}");
+            logMessage($"Checking size of {animal}");
             AnimalSizes[animal.race.AnyPawnKind] = animal.race.baseBodySize;
-            LogMessage($"Size: {animal.race.baseBodySize}");
+            logMessage($"Size: {animal.race.baseBodySize}");
         }
 
         UpdateAvailableCats();
@@ -36,31 +41,31 @@ public class CatsHuntForFun
     public static void UpdateAvailableCats()
     {
         ValidCatRaces = [];
-        if (CatsHuntForFunMod.instance.Settings.ManualCats?.Any() == true)
+        if (CatsHuntForFunMod.Instance.Settings.ManualCats?.Any() == true)
         {
-            LogMessage("Found manually defined cat-races, iterating");
-            foreach (var settingsManualCat in CatsHuntForFunMod.instance.Settings.ManualCats)
+            logMessage("Found manually defined cat-races, iterating");
+            foreach (var settingsManualCat in CatsHuntForFunMod.Instance.Settings.ManualCats)
             {
                 var catToAdd = DefDatabase<PawnKindDef>.GetNamedSilentFail(settingsManualCat);
                 if (catToAdd == null)
                 {
-                    LogMessage($"{settingsManualCat} not found, skipping");
+                    logMessage($"{settingsManualCat} not found, skipping");
                     continue;
                 }
 
-                LogMessage($"Adding {settingsManualCat}");
+                logMessage($"Adding {settingsManualCat}");
                 ValidCatRaces.Add(catToAdd);
             }
 
             if (ValidCatRaces.Count == 0)
             {
-                LogMessage("Could not find any valid cat-races in game", false, true);
+                logMessage("Could not find any valid cat-races in game", false, true);
             }
             else
             {
-                LogMessage($"Found {ValidCatRaces.Count} valid cat-races in game: {string.Join(", ", ValidCatRaces)}",
+                logMessage($"Found {ValidCatRaces.Count} valid cat-races in game: {string.Join(", ", ValidCatRaces)}",
                     true);
-                LogMessage(string.Join(", ", ValidCatRaces));
+                logMessage(string.Join(", ", ValidCatRaces));
             }
 
             return;
@@ -72,29 +77,26 @@ public class CatsHuntForFun
             select race);
         if (ValidCatRaces.Count == 0)
         {
-            LogMessage("Could not find any valid cat-races in game", false, true);
+            logMessage("Could not find any valid cat-races in game", false, true);
         }
         else
         {
-            if (CatsHuntForFunMod.instance.Settings.ManualCats == null)
-            {
-                CatsHuntForFunMod.instance.Settings.ManualCats = [];
-            }
+            CatsHuntForFunMod.Instance.Settings.ManualCats ??= [];
 
             foreach (var validRatRace in ValidCatRaces)
             {
-                LogMessage($"Adding hardcoded {validRatRace.defName}");
-                CatsHuntForFunMod.instance.Settings.ManualCats?.Add(validRatRace.defName);
+                logMessage($"Adding hardcoded {validRatRace.defName}");
+                CatsHuntForFunMod.Instance.Settings.ManualCats?.Add(validRatRace.defName);
             }
 
-            LogMessage($"Found {ValidCatRaces.Count} valid cat-races in game: {string.Join(", ", ValidCatRaces)}",
+            logMessage($"Found {ValidCatRaces.Count} valid cat-races in game: {string.Join(", ", ValidCatRaces)}",
                 true);
         }
     }
 
     public static IntVec3 GetGiftLocation(Pawn cat)
     {
-        if (Rand.Value >= CatsHuntForFunMod.instance.Settings.ChanceForGifts)
+        if (Rand.Value >= CatsHuntForFunMod.Instance.Settings.ChanceForGifts)
         {
             return IntVec3.Invalid;
         }
@@ -114,7 +116,7 @@ public class CatsHuntForFun
 
     public static bool CanStartJobNow(Pawn pawn)
     {
-        if (!IsAnAdultCat(pawn))
+        if (!isAnAdultCat(pawn))
         {
             return false;
         }
@@ -173,37 +175,37 @@ public class CatsHuntForFun
 
         if (notColonyPets && prey.Faction == cat.Faction)
         {
-            LogMessage($"{cat} will ignore {prey}: same faction");
+            logMessage($"{cat} will ignore {prey}: same faction");
             return null;
         }
 
         if (notFactionPets && prey.Faction != null && prey.Faction != cat.Faction)
         {
-            LogMessage($"{cat} will ignore {prey}: belongs to another faction");
+            logMessage($"{cat} will ignore {prey}: belongs to another faction");
             return null;
         }
 
         if (onlyInHome && !thing.Map.areaManager.Home[thing.Position])
         {
-            LogMessage($"{cat} will ignore {prey}: not in home area");
+            logMessage($"{cat} will ignore {prey}: not in home area");
             return null;
         }
 
         if (prey.IsHiddenFromPlayer())
         {
-            LogMessage($"{cat} will ignore {prey}: is invisible");
+            logMessage($"{cat} will ignore {prey}: is invisible");
             return null;
         }
 
         if (!isGift && prey.health?.Downed == true)
         {
-            LogMessage($"{cat} will ignore {prey}: is downed");
+            logMessage($"{cat} will ignore {prey}: is downed");
             return null;
         }
 
-        if (!ValidPrey(cat).Contains(prey.RaceProps?.AnyPawnKind))
+        if (!validPrey(cat).Contains(prey.RaceProps?.AnyPawnKind))
         {
-            LogMessage($"{cat} will ignore {prey}: not a valid prey-race");
+            logMessage($"{cat} will ignore {prey}: not a valid prey-race");
             return null;
         }
 
@@ -212,35 +214,35 @@ public class CatsHuntForFun
             return thing;
         }
 
-        LogMessage($"{cat} will ignore {prey}: cant see it");
+        logMessage($"{cat} will ignore {prey}: cant see it");
         return null;
     }
 
-    public static bool IsAnAdultCat(Pawn pawn)
+    private static bool isAnAdultCat(Pawn pawn)
     {
         if (pawn.ageTracker?.Adult == false)
         {
             return false;
         }
 
-        return CatsHuntForFunMod.instance.Settings.ManualCats?.Contains(pawn.RaceProps.AnyPawnKind?.defName) == true;
+        return CatsHuntForFunMod.Instance.Settings.ManualCats?.Contains(pawn.RaceProps.AnyPawnKind?.defName) == true;
     }
 
     public static List<PawnKindDef> ValidPrey(ThingDef raceDef)
     {
         return AnimalSizes.Where(pair =>
-                pair.Value < raceDef.race.baseBodySize * CatsHuntForFunMod.instance.Settings.RelativeBodySize)
+                pair.Value < raceDef.race.baseBodySize * CatsHuntForFunMod.Instance.Settings.RelativeBodySize)
             .Select(pair => pair.Key).ToList();
     }
 
-    public static List<PawnKindDef> ValidPrey(Pawn pawn)
+    private static List<PawnKindDef> validPrey(Pawn pawn)
     {
         return AnimalSizes.Where(pair =>
-                pair.Value < pawn.RaceProps.baseBodySize * CatsHuntForFunMod.instance.Settings.RelativeBodySize)
+                pair.Value < pawn.RaceProps.baseBodySize * CatsHuntForFunMod.Instance.Settings.RelativeBodySize)
             .Select(pair => pair.Key).ToList();
     }
 
-    public static void LogMessage(string message, bool forced = false, bool warning = false)
+    private static void logMessage(string message, bool forced = false, bool warning = false)
     {
         if (warning)
         {
@@ -248,7 +250,7 @@ public class CatsHuntForFun
             return;
         }
 
-        if (!forced && !CatsHuntForFunMod.instance.Settings.VerboseLogging)
+        if (!forced && !CatsHuntForFunMod.Instance.Settings.VerboseLogging)
         {
             return;
         }

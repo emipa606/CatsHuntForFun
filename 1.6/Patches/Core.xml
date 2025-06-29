@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/PawnKindDef[defName="Cat"]</xpath>
+    <success>Always</success>
+    <match Class="PatchOperationAddModExtension">
+      <xpath>/Defs/PawnKindDef[defName="Cat"]</xpath>
+      <value>
+        <li Class="CatsHuntForFun.CatExtension">
+          <IsCat>True</IsCat>
+        </li>
+      </value>
+    </match>
+  </Operation>
+  <!-- <Operation Class="PatchOperationConditional"> -->
+  <!-- <xpath>/Defs/ThinkTreeDef[defName="Animal"]/thinkRoot/subNodes/li[insertTag="Animal_PreWander"]</xpath> -->
+  <!-- <success>Always</success> -->
+  <!-- <match Class="PatchOperationInsert"> -->
+  <!-- <xpath>/Defs/ThinkTreeDef[defName="Animal"]/thinkRoot/subNodes/li[insertTag="Animal_PreWander"]</xpath> -->
+  <!-- <value> -->
+  <!-- <li Class="CatsHuntForFun.JobGiver_HuntForFun" /> -->
+  <!-- </value> -->
+  <!-- </match> -->
+  <!-- </Operation> -->
+</Patch>

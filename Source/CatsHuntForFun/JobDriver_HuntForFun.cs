@@ -7,7 +7,7 @@ namespace CatsHuntForFun;
 
 public class JobDriver_HuntForFun : JobDriver_AttackMelee
 {
-    protected Pawn Prey => (Pawn)job.targetA.Thing;
+    private Pawn Prey => (Pawn)job.targetA.Thing;
 
     public override bool TryMakePreToilReservations(bool errorOnFailed)
     {
