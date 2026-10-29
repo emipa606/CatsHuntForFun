@@ -23,11 +23,6 @@ internal class CatsHuntForFunMod : Mod
 
 
     /// <summary>
-    ///     The private settings
-    /// </summary>
-    private CatsHuntForFunModSettings settings;
-
-    /// <summary>
     ///     Constructor
     /// </summary>
     /// <param name="content"></param>
@@ -49,12 +44,12 @@ internal class CatsHuntForFunMod : Mod
     {
         get
         {
-            settings ??= GetSettings<CatsHuntForFunModSettings>();
+            field ??= GetSettings<CatsHuntForFunModSettings>();
 
-            return settings;
+            return field;
         }
 
-        set => settings = value;
+        set;
     }
 
     public override string SettingsCategory()
@@ -65,16 +60,16 @@ internal class CatsHuntForFunMod : Mod
     /// <summary>
     ///     The settings-window
     /// </summary>
-    /// <param name="rect"></param>
-    public override void DoSettingsWindowContents(Rect rect)
+    /// <param name="inRect"></param>
+    public override void DoSettingsWindowContents(Rect inRect)
     {
-        base.DoSettingsWindowContents(rect);
+        base.DoSettingsWindowContents(inRect);
 
         var listingStandard = new Listing_Standard
         {
-            ColumnWidth = rect.width * 0.49f
+            ColumnWidth = inRect.width * 0.49f
         };
-        listingStandard.Begin(rect);
+        listingStandard.Begin(inRect);
         Text.Font = GameFont.Medium;
         var optionsRect = listingStandard.Label("CatsHuntForFun.options".Translate());
         Text.Font = GameFont.Small;
@@ -164,9 +159,9 @@ internal class CatsHuntForFunMod : Mod
 
         listingStandard.End();
 
-        var borderRect = rect;
+        var borderRect = inRect;
         borderRect.width *= 0.49f;
-        borderRect.x += rect.width / 2;
+        borderRect.x += inRect.width / 2;
         borderRect.height -= searchSize.y + 40f;
         borderRect.y += searchSize.y + 40f;
         var scrollContentRect = borderRect;
@@ -220,9 +215,14 @@ internal class CatsHuntForFunMod : Mod
     {
         var pawnKind = DefDatabase<PawnKindDef>.GetNamedSilentFail(animal.defName);
 
-        var texture2D = pawnKind?.lifeStages?.Last()?.bodyGraphicData?.Graphic?.MatSingle?.mainTexture;
+        var texture2D = pawnKind?.lifeStages?[^1]?.bodyGraphicData?.Graphic?.MatSingle?.mainTexture;
 
         if (texture2D == null)
+        {
+            return;
+        }
+
+        if (pawnKind == null)
         {
             return;
         }

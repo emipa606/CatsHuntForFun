@@ -3,4 +3,30 @@
     <BuildType Name="Release" />
   </Configurations>
   <Project Path="CatsHuntForFun/CatsHuntForFun.csproj" />
+  <Folder Name="/.github/">
+    <File Path="../.github/copilot-instructions.md" />
+  </Folder>
+  <Folder Name="/XML/1.7/Defs/JobDefs/">
+    <File Path="../1.7/Defs/JobDefs/Jobs_Animal.xml" />
+  </Folder>
+  <Folder Name="/XML/About/">
+    <File Path="../About/about.xml" />
+  </Folder>
+  <Folder Name="/XML/1.7/Patches/">
+    <File Path="../1.7/Patches/AnimalCollabProj.xml" />
+    <File Path="../1.7/Patches/BeastsOfTheRim.xml" />
+    <File Path="../1.7/Patches/Core.xml" />
+    <File Path="../1.7/Patches/ErinsMountainCats.xml" />
+    <File Path="../1.7/Patches/ExtendTheCat.xml" />
+    <File Path="../1.7/Patches/HCanimals1.xml" />
+    <File Path="../1.7/Patches/LetsHaveaCat.xml" />
+    <File Path="../1.7/Patches/Tortie.xml" />
+    <File Path="../1.7/Patches/VAECatsAndDogs.xml" />
+  </Folder>
+  <Folder Name="/XML/1.7/Defs/ThinkTreeDefs/">
+    <File Path="../1.7/Defs/ThinkTreeDefs/HuntAndGift.xml" />
+  </Folder>
+  <Folder Name="/XML/Languages/English/Keyed/">
+    <File Path="../Languages/English/Keyed/Mod_Settings.xml" />
+  </Folder>
 </Solution>

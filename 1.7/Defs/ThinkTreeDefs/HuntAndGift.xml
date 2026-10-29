@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThinkTreeDef>
+    <defName>CatsHuntForFun_Hunt</defName>
+    <insertTag>Animal_PreWander</insertTag>
+    <insertPriority>100</insertPriority>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="CatsHuntForFun.JobGiver_HuntForFun" />
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  <ThinkTreeDef>
+    <defName>CatsHuntForFun_BringGift</defName>
+    <insertTag>Animal_PreWander</insertTag>
+    <insertPriority>100</insertPriority>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="CatsHuntForFun.JobGiver_BringGift" />
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+</Defs>

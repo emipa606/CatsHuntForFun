@@ -7,7 +7,7 @@ using Verse.AI;
 namespace CatsHuntForFun;
 
 [StaticConstructorOnStartup]
-public class CatsHuntForFun
+public static class CatsHuntForFun
 {
     private static List<PawnKindDef> ValidCatRaces;
     public static readonly List<ThingDef> AllAnimals;
@@ -83,10 +83,10 @@ public class CatsHuntForFun
         {
             CatsHuntForFunMod.Instance.Settings.ManualCats ??= [];
 
-            foreach (var validRatRace in ValidCatRaces)
+            foreach (var validRatRace in ValidCatRaces.Select(race => race.defName))
             {
-                logMessage($"Adding hardcoded {validRatRace.defName}");
-                CatsHuntForFunMod.Instance.Settings.ManualCats?.Add(validRatRace.defName);
+                logMessage($"Adding hardcoded {validRatRace}");
+                CatsHuntForFunMod.Instance.Settings.ManualCats?.Add(validRatRace);
             }
 
             logMessage($"Found {ValidCatRaces.Count} valid cat-races in game: {string.Join(", ", ValidCatRaces)}",
